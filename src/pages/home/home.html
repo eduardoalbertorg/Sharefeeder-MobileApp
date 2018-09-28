@@ -3,16 +3,26 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title>Home</ion-title>
+    <ion-buttons start>
+      <button ion-button icon-only>
+        <ion-icon name="home"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Home
+    </ion-title>
   </ion-navbar>
 </ion-header>
-
-<ion-content padding>
-  <h3>Ionic Menu Starter</h3>
-
-  <p>
-    If you get lost, the <a href="http://ionicframework.com/docs/v2">docs</a> will show you the way.
-  </p>
-
-  <button ion-button secondary menuToggle>Toggle Menu</button>
+<ion-content padding id="page1">
+  <form id="home-form2">
+    <ion-item id="home-select1">
+      <ion-label>
+        Alimentadoras
+      </ion-label>
+      <ion-select name="selectFeeder"></ion-select>
+    </ion-item>
+    <button id="home-button1" ion-button color="positive" block on-click="goToCart()">
+      Seleccionar
+    </button>
+  </form>
 </ion-content>
