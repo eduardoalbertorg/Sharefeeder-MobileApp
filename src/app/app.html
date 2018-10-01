@@ -1,4 +1,5 @@
 <ion-menu [content]="mainContent">
+  
   <ion-header>
     <ion-toolbar>
       <ion-title>
@@ -6,18 +7,20 @@
       </ion-title>
     </ion-toolbar>
   </ion-header>
-  <ion-content id="side-menu21">
-    <ion-list id="menu-list1">
-      <ion-item color="none" menuClose="" on-click="goToHome()" id="menu-list-item1">
+  
+  <ion-content id="sideMenu">
+    <ion-list id="sideMenuList">
+      <ion-item color="none" menuClose="" on-click="goToHome()" id="sideMenuListItem1">
         Home
         <ion-icon name="home" item-right></ion-icon>
       </ion-item>
-      <ion-item color="none" id="menu-list-item4">
+      <ion-item color="none" menuClose="" on-click="goToContactUs()" id="sideMenuListItem2">
         Contact us
         <ion-icon name="information-circle" item-right></ion-icon>
       </ion-item>
     </ion-list>
   </ion-content>
+
 </ion-menu>
 
 <ion-nav #mainContent [root]="rootPage"></ion-nav>
