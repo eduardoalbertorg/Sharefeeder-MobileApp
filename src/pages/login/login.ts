@@ -1,3 +1,4 @@
+import { SignupPage } from './../signup/signup';
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
@@ -10,4 +11,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController) {
   }
   
+  gotoSignupPage() {
+    this.navCtrl.push(SignupPage);
+  }
+
 }
