@@ -1,8 +1,10 @@
+import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, NavParams, Alert, AlertController } from 'ionic-angular';
 import { CartPage } from '../cart/cart';
 import { Observable } from 'rxjs/Observable';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'page-home',
@@ -11,9 +13,22 @@ import { Observable } from 'rxjs/Observable';
 export class HomePage {
 
   public feeders:any;
+  feederForm: FormGroup;
+  amount:number = 0;
+  succesfulPayments:number = 0;
+  description:string;
 
-  constructor(public navCtrl: NavController, public http: HttpClient) {
+  constructor(public navCtrl: NavController,
+              public http: HttpClient, 
+              private payPal: PayPal,
+              public navParams: NavParams,
+              private formBuilder: FormBuilder,
+              private alertCtrl: AlertController) {
     this.getRemoteData();
+    this.feederForm = this.formBuilder.group({
+      amount: [''],
+      feeder: ['']
+    });
   }
 
   getRemoteData() {
@@ -32,4 +47,64 @@ export class HomePage {
     if (!params) params = {};
     //this.navCtrl.push(CartPage);
   }
+
+  changeAmount(amount:number) {
+    this.amount = amount;
+  }
+
+  presentAlert() {
+    let alert = this.alertCtrl.create({
+      title: 'Pago exitoso',
+      subTitle: 'Muchas gracias por tu pago <3',
+      buttons: ['Dismiss']
+    });
+    alert.present();
+  }
+
+  paypalPayment() {
+    this.description = "Donacion de $" + this.amount;
+    this.payPal.init({
+      PayPalEnvironmentProduction: 'YOUR_PRODUCTION_CLIENT_ID',
+      PayPalEnvironmentSandbox: 'AWhQOHFuhMITy7UxxilzYPJXZwNl721HdL_idN-JH2ZNX_XS1kKxQzSRnImNAtDtpmRvBVtBAbj9_0Ng'
+    }).then(() => {
+      // Environments: PayPalEnvironmentNoNetwork, PayPalEnvironmentSandbox, PayPalEnvironmentProduction
+      this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+        // Only needed if you get an "Internal Service Error" after PayPal login!
+        //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
+      })).then(() => {
+        //let payment = new PayPalPayment('3.33', 'USD', 'Description', 'sale');
+        let payment = new PayPalPayment(this.amount.toString(), 'USD', this.description, 'sale');
+        this.payPal.renderSinglePaymentUI(payment).then(() => {
+          // Successfully paid
+    
+          // Example sandbox response
+          //
+          // {
+          //   "client": {
+          //     "environment": "sandbox",
+          //     "product_name": "PayPal iOS SDK",
+          //     "paypal_sdk_version": "2.16.0",
+          //     "platform": "iOS"
+          //   },
+          //   "response_type": "payment",
+          //   "response": {
+          //     "id": "PAY-1AB23456CD789012EF34GHIJ",
+          //     "state": "approved",
+          //     "create_time": "2016-10-03T13:33:33Z",
+          //     "intent": "sale"
+          //   }
+          // }
+          this.succesfulPayments++;
+          this.presentAlert();
+        }, () => {
+          // Error or render dialog closed without being successful
+        });
+      }, () => {
+        // Error in configuration
+      });
+    }, () => {
+      // Error in initialization, maybe PayPal isn't supported or something else
+    });
+  } 
+
 }
