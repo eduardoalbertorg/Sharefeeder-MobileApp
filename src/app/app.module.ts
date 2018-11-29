@@ -10,8 +10,7 @@ import { LoginPage } from '../pages/login/login';
 import { SignupPage } from '../pages/signup/signup';
 import { ContactUsPage } from '../pages/contact-us/contact-us';
 import { ProfilePage } from '../pages/profile/profile';
-
-
+import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -30,6 +29,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     BrowserModule,
     HttpModule,
     HttpClientModule,
+    
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -45,6 +45,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
+    PayPal,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })
