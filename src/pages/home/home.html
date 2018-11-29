@@ -19,10 +19,28 @@
       <ion-label>
         Alimentadoras
       </ion-label>
-      <ion-select name="selectFeeder"></ion-select>
+      <ion-select name="selectFeeder">
+        <ion-option *ngFor="let feeder of feeders" >{{ feeder.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <button id="btn5" ion-button clear color="positive">
+      $5
+    </button>
+    <button id="btn10" ion-button clear color="positive">
+      $10
+    </button>
+    <button id="btn 20" ion-button clear color="positive">
+      $20
+    </button>
+    <button id="btnCustomAmount" ion-button clear color="positive">
+      Otra cantidad
+    </button>
+    <ion-item id="cart-input3">
+      <ion-label></ion-label>
+      <ion-input type="number" placeholder="$" name="inputAmount"></ion-input>
     </ion-item>
     <button id="home-button1" ion-button color="positive" block on-click="goToCart()">
-      Seleccionar
+      Alimentar
     </button>
   </form>
 </ion-content>
