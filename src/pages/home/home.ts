@@ -61,6 +61,11 @@ export class HomePage {
     alert.present();
   }
 
+  activateFeeder() {
+    let url = 'http://192.168.0.22/toggle';
+    this.http.get(url).subscribe();
+  }
+
   paypalPayment() {
     this.description = "Donacion de $" + this.amount;
     this.payPal.init({
@@ -96,6 +101,7 @@ export class HomePage {
           // }
           this.succesfulPayments++;
           this.presentAlert();
+          this.activateFeeder();
         }, () => {
           // Error or render dialog closed without being successful
         });
